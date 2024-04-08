@@ -1,6 +1,9 @@
 import sys
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def init_structure() -> Agent:
