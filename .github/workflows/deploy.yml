@@ -1,5 +1,5 @@
 
-name: Code Checks
+name: Build and Deploy Container App
 
 on:
     push:
