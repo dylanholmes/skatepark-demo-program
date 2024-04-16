@@ -24,5 +24,9 @@ def init_structure() -> Agent:
 
 if __name__ == "__main__":
     agent = init_structure()
-    args = sys.argv[1:]
-    agent.run(*args)
+    args = sys.argv[0:]
+    i = 0
+    for arg in args:
+        print(f"Arg {i}: {arg}")
+        i += 1
+    agent.run(*sys.argv[1:])
