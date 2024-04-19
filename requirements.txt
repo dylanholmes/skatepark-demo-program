@@ -1,2 +1,2 @@
-griptape @ git+https://github.com/griptape-ai/griptape@dev
+griptape @ git+https://github.com/griptape-ai/griptape@feature/gtc-events-route
 python-dotenv
