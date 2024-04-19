@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GRIPTAPE_API_BASE_URL = os.environ["GRIPTAPE_API_BASE_URL"]
+GRIPTAPE_API_KEY = os.environ["GRIPTAPE_API_KEY"]
 
 print("Environment variables:")
 for name, value in os.environ.items():
@@ -34,6 +35,7 @@ agent = Agent(
         EventListener(
             driver=GriptapeCloudEventListenerDriver(
                 base_url=GRIPTAPE_API_BASE_URL,
+                api_key=GRIPTAPE_API_KEY,
             )
         ),
         EventListener(
