@@ -1,10 +1,14 @@
+import os
 import sys
+from griptape.events import EventListener
+from griptape.drivers import GriptapeCloudEventListenerDriver
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
 from dotenv import load_dotenv
 
 load_dotenv()
 
+GRIPTAPE_API_BASE_URL = os.environ["GRIPTAPE_API_BASE_URL"]
 
 def init_structure() -> Agent:
 
@@ -19,7 +23,16 @@ def init_structure() -> Agent:
         ),
     ]
 
-    return Agent(rulesets=rulesets)
+    return Agent(
+        rulesets=rulesets,
+        event_listeners=[
+            EventListener(
+                driver=GriptapeCloudEventListenerDriver(
+                    base_url=GRIPTAPE_API_BASE_URL,
+                )
+            )
+        ],
+    )
 
 
 if __name__ == "__main__":
