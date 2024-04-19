@@ -1,7 +1,7 @@
 import os
 import sys
 from griptape.events import EventListener
-from griptape.drivers import GriptapeCloudEventListenerDriver
+from griptape.drivers import GriptapeCloudEventListenerDriver, LocalEventListenerDriver
 from griptape.rules import Rule, Ruleset
 from griptape.structures import Agent
 from dotenv import load_dotenv
@@ -10,9 +10,17 @@ load_dotenv()
 
 GRIPTAPE_API_BASE_URL = os.environ["GRIPTAPE_API_BASE_URL"]
 
-def init_structure() -> Agent:
+print("Environment variables:")
+for name, value in os.environ.items():
+    print("{0}: {1}".format(name, value))
+print()
 
-    rulesets = [
+print("Arguments:")
+for i, arg in enumerate(sys.argv):
+    print(f"Arg {i}: {arg}")
+
+agent = Agent(
+    rulesets=[
         Ruleset(
             name="Danish Baker",
             rules=[
@@ -21,25 +29,18 @@ def init_structure() -> Agent:
                 )
             ],
         ),
-    ]
-
-    return Agent(
-        rulesets=rulesets,
-        event_listeners=[
-            EventListener(
-                driver=GriptapeCloudEventListenerDriver(
-                    base_url=GRIPTAPE_API_BASE_URL,
-                )
+    ],
+    event_listeners=[
+        EventListener(
+            driver=GriptapeCloudEventListenerDriver(
+                base_url=GRIPTAPE_API_BASE_URL,
             )
-        ],
-    )
-
-
-if __name__ == "__main__":
-    agent = init_structure()
-    args = sys.argv[0:]
-    i = 0
-    for arg in args:
-        print(f"Arg {i}: {arg}")
-        i += 1
-    agent.run(*sys.argv[1:])
+        ),
+        EventListener(
+            driver=LocalEventListenerDriver(
+                handler=lambda event: print(f"Local event handler: {event}")
+            )
+        )
+    ],
+)
+agent.run(*sys.argv[1:])
